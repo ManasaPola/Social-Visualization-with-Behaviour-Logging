@@ -1,0 +1,24 @@
+{
+    "name": "assignment-1",
+    "main": "server.js",
+    "dependencies": {
+        "bcrypt-nodejs": "latest",
+        "body-parser": "^1.18.3",
+        "connect-flash": "latest",
+        "cookie-parser": "^1.4.3",
+        "d3": "^4.10.2",
+        "date-format": "^1.2.0",
+        "dateformat": "^3.0.3",
+        "ejs": "~0.8.5",
+        "express": "^4.16.3",
+        "express-session": "^1.15.6",
+        "method-override": "~1.0.0",
+        "mongoose": "latest",
+        "morgan": "~1.0.0",
+        "passport": "latest",
+        "passport-local": "latest"
+    },
+    "scripts": {
+        "start": "node server.js"
+    }
+}

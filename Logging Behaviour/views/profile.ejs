@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!--extends navigation bar from layout-->
+<% include ./layout %>
+
+<body>
+<div class="container">
+    <!--<div class="page-header text-center">-->
+        <!--<h1><span class="glyphicon glyphicon-queen"></span>&nbsp; Hey, <%= user.local.email %> Welcome to Adaptive Web Assignment 1</h1>-->
+    <!--</div>-->
+    <div class = "col-md-5">
+        <div>
+            <h3 align="center">Hey, <%= user.local.email %> </h3>
+            <div class="card" style="width: 18rem;" align="center">
+                <!--<img src = "/userIcon.png" />-->
+                <div class="card-body text-center">
+                    <p class="card-text">Click Below to navigate to StackOverFlow Page</p>
+                    <a href="https://stackoverflow.com/questions/tagged/java" class="btn btn-warning btn-block">StackOver Flow</a>
+                </div>
+            </div>
+        </div>
+        <br>
+        <div>
+            <table class="table table-responsive table-striped table-bordered">
+                <th colspan="2" class="text-center">Why I decided to log these actions</th>
+                <tr>
+                    <td class="TableColors">Browsing</td><td>This is to get the knowledge of user's browsing behaviour to give the recommendations</td>
+                </tr>
+                <tr>
+                    <td class="TableColors">Copy</td><td>Using this we can determine the coding language he frequently use and recommend courses on that</td>
+                </tr>
+                <tr>
+                    <td class="TableColors">QuestionClicks</td><td>By logging the questions we can optimize the search </td>
+                </tr>
+                <tr>
+                    <td class="TableColors">BookMarks</td><td>Using this we can predict the likelihood of that Question</td>
+                </tr>
+                <tr>
+                    <td class="TableColors">DownVotes</td><td>By taking into consideration we can improve the quality of recommendation</td>
+                </tr>
+                <tr>
+                    <td class="TableColors">UpVotes</td><td>Most Upvoted questions are more likely can come in recommendations</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+    <div class = "col-md-7">
+            <div class="LoginHistory">
+                <h3 align="center">Here is your Login History:</h3>
+                <ul class="list-group list-group-flush">
+                    <% for(var i = 0; i < user.loginHistory.length; i++) { %>
+                    <li class="list-group-item a"><%= user.loginHistory[i] %></li>
+                    <% } %>
+                </ul>
+            </div>
+    </div>
+</div>
+</body>
+</html>

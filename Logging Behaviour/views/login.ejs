@@ -1,0 +1,39 @@
+<html>
+
+<head>
+    <title>CSE 591 Adaptive Web Assignment</title>
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
+    <link href="/css/AWAssgn1.css" rel="stylesheet" type="text/css">
+</head>
+
+<body class="content">
+    <div class="container">
+        <div class="row loginform">
+            <h4 align="center" class="Yellow">Hey, Good to see you again!</h4>
+            <form method="post" action="/login">
+                    <div class="row">
+                        <div class="form-group">
+                            <input type="text" name="email" id="email" class="form-control input-sm" placeholder="User Name">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group">
+                            <input type="password" name="password" id="password" class="form-control input-sm" placeholder="Password">
+                        </div>
+                    </div>
+                <div class="col-xs-6 col-sm-6 col-md-6">
+                    <div class="row">
+                        <% if (message.length > 0) { %>
+                        <div class="alert alert-danger"><%= message %></div>
+                        <% } %>
+                        <input type="submit" value="Login" class="btn btn-warning btn-block">
+                    </div>
+                </div>
+            </form>
+            <p class="Yellow"> &nbsp; &nbsp; Or go &nbsp; <a href="/" class="Yellow"><span class="glyphicon glyphicon-home Yellow"></span>home</a>.</p>
+        </div>
+    </div>
+</body>
+</html>

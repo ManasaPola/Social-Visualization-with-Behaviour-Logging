@@ -1,0 +1,36 @@
+<!doctype html>
+<html>
+<!--extends navigation bar from layout-->
+<% include ./layout %>
+<body>
+<div class="container">
+
+    <div class="row">
+        <div class="well">
+            <h3 align="center">Interactions</h3>
+            <ul class="list-group">
+                <table class="table">
+                    <tr class="thead-inverse">
+                        <th>Interaction</th><th>Time</th><th>Behaviour</th>
+                    </tr>
+                    <% for (var i =data.length - 1; i >0 ; i--) { %>
+                    <tr class="TableColors">
+                        <td><%= data[i].activity %></td>
+                        <td><%= data[i].dateTime %></td>
+                        <td><%= data[i].data %></td>
+                    </tr>
+                    <% } %>
+                </table>
+            </ul>
+            </p>
+        </div>
+    </div>
+</div>
+</body>
+<script>
+    var data1=" <%= data  %> ";
+    console.log(data1);
+</script>
+</html>
+
+

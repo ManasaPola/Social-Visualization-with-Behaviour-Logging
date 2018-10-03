@@ -1,0 +1,30 @@
+{
+
+  "name" : "StackOverFlow User Interaction Tracker",
+  "description" : "This extension tracks user interaction of stackoverflow page",
+  "version" : "1.0",
+
+  "manifest_version" : 2,
+
+  "browser_action" : {
+    "default_icon" : "icon.png",
+    "default_popup" : "popup.html"
+  },
+  "permissions" : [
+    "tabs",
+    "background",
+    "cookies",
+    "activeTab",
+    "http://*/*",
+    "https://ajax.googleapis.com/"
+  ],
+  "background" : {
+    "scripts" : ["jquery.js" ,"background.js","content.js"],
+    "persistent" : true
+  },
+  "content_scripts" : [{
+    "matches" : ["https://stackoverflow.com/*"],
+    "js" : ["jquery.js", "content.js"],
+    "all_frames" : false
+  }]
+}

@@ -1,0 +1,168 @@
+
+
+<!--extends navigation bar from layout-->
+<% include ./layout %>
+
+<div id="container" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+
+<script>
+    userName = [];
+    unique_dates = [];
+    total_userdates = {};
+    total_uniquedates = {};
+    users = [];
+    <% for (var i = data.length - 1; i > 0 ; i--) { %>
+    userId = "<%= data[i].userId %>";
+    date = "<%= data[i].dateTime %>";
+
+    date = date.slice(0, 10);
+
+    <!-- -->
+    if (userName.indexOf(userId) >= 0) {
+        user_date = users[userId];
+        index_of_date = user_date.indexOf(date);
+        if (index_of_date >= 0) {
+            users[userId][index_of_date + 1] += 1;
+        }
+        else {
+            users[userId].push(date, 1);
+        }
+    }
+    else {
+        total_userdates[userId] = 0;
+        userName.push(userId);
+        var x = [date, 1];
+        users[userId] = x;
+    }
+    total_userdates[userId] += 1;
+
+    if (unique_dates.indexOf(date) >= 0) {
+
+    }
+    else {
+        total_uniquedates[date] = 0;
+        unique_dates.push(date);
+
+    }
+    total_uniquedates[date] += 1;
+
+    <% } %>
+    <!-- -->
+
+    var freqData = [];
+
+    for (var key in users) {
+//        console.log(users[key]);
+        u_key = users[key];
+        for (var i = 0; i < unique_dates.length; i++) {
+            if (u_key.indexOf(unique_dates[i]) < 0) {
+                var p = unique_dates[i];
+                u_key.push(p, 0);
+            }
+//            console.log(u_key[unique_dates[i]]);
+        }
+    }
+
+    for (var key in users) {
+        u_key = users[key];
+        for (var i = 0; i < unique_dates.length; i++) {
+            if (u_key.indexOf(unique_dates[i]) < 0) {
+                var p = unique_dates[i];
+                u_key.push(p, 0);
+            }
+//            console.log(u_key[unique_dates[i]]);
+        }
+    }
+    console.log(users);
+    dataset = [];
+    for (var i = 0; i < unique_dates.length; i++) {
+        var data = {};
+        var json = {"label": unique_dates[i]};
+//        json.push("label",unique_dates[i]);
+        for (var key in users) {
+            var user_id = key;
+            var u_key = users[key];
+            var index = u_key.indexOf(unique_dates[i]);
+            var value = u_key[index + 1];
+            json[user_id] = value;
+        }
+        dataset.push(json);
+    }
+
+    //get all users
+    var userList = []
+    for(var key in dataset[0]){
+        console.log(key);
+        if(key == 'label')
+            continue;
+        userList.push(key);
+    }
+    var categoriesChart = dataset.map(a => a["label"]);
+    var seriesChart = [];
+    for(var i = 0; i<userList.length; i++) {
+        var result = dataset.map(a => a[userList[i]]);
+        var seriesElement = {
+            name: userList[i],
+            data : result
+        };
+        seriesChart.push(seriesElement);
+
+    }
+
+    // for(var i = 0; i<dataset.length; i++){
+    //     categories.push(dataset[i]["label"]);
+    //     var chartData = [];
+    //     for(var key in freqData[j].data)
+    //         chartData.push(freqData[j].data[key])
+    //     var seriesElement = {
+    //         name: freqData[j].userId,
+    //         data : chartData
+    //     };
+    //     seriesChart.push(seriesElement);
+    // }
+    console.log("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&");
+    Highcharts.chart('container', {
+        chart: {
+            type: 'areaspline'
+        },
+        title: {
+            text: 'Daily usage of the user'
+        },
+        legend: {
+            layout: 'vertical',
+            align: 'left',
+            verticalAlign: 'top',
+            x: 150,
+            y: 100,
+            floating: true,
+            borderWidth: 1,
+            backgroundColor: (Highcharts.theme && Highcharts.theme.legendBackgroundColor) || '#FFFFFF'
+        },
+        xAxis: {
+            categories: categoriesChart,
+            plotBands: [{ // visualize the weekend
+                from: 4.5,
+                to: 6.5,
+                color: 'rgba(68, 170, 213, .2)'
+            }]
+        },
+        yAxis: {
+            title: {
+                text: 'Units'
+            }
+        },
+        tooltip: {
+            shared: true,
+            valueSuffix: ' units'
+        },
+        credits: {
+            enabled: false
+        },
+        plotOptions: {
+            areaspline: {
+                fillOpacity: 0.5
+            }
+        },
+        series: seriesChart
+    });
+</script>

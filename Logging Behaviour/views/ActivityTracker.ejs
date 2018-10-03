@@ -1,0 +1,240 @@
+<!--extends navigation bar from layout-->
+<% include ./layout %>
+
+<body>
+<div class="container" style="margin-left: 0px; margin-right: 0px; width: auto;">
+    <div class="row">
+        <div class="col-sm-4">
+            <div class="well">
+                <h4 class="bg-Warning" align="center">Description</h4>
+                <ul>
+                    <li>The above stacked bar chart represents total number of interaction user wise</li>
+                    <li>Usernames are displayed as legend</li>
+                    <li>On Click of each user the stacked bar chart shows the interactions of that particular user</li>
+                    <li>Y axis shows type of behaviours that user performed on the stack over flow page</li>
+                    <li>On hoverover of any stack a tooltip is displayed with the username and count of behaviour</li>
+                    <li>By hovering out, it will show the normal view</li>
+                </ul>
+            </div>
+        </div>
+        <div class="col-sm-8">
+            <div class="well">
+                <div class="table-responsive"></div>
+                <div id="container" style="min-width: 310px; max-width: 800px; height: 400px; margin: 0 auto">></div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-8">
+            <div class="well" background-color = "#FFE4B5">
+                <h4 class="bg-Warning" align="center">Patterns</h4>
+                <ul>
+                    <li>The interactive graphs can compare interaction between every user</li>
+                    <li>These graphs provides the Information about most likely behaviour of the users in stackoverflow page</li>
+                    <li>Page Browse: If this is more then we can say that user is performing more browsing rather than picking from teh recommend questions.</li>
+                    <li>Copy: If copying is more then we can determine which coding language he is working on and suggest some courses on that  </li>
+                    <li>QuestionClicks: If he clicks more on Questions, he is not able to find solutions in one go, then we can optimize the search </li>
+                    <li>BookMark: If he is doing lot of Bookmarks then the we can observe the interest of the user in using stack over flow  </li>
+                    <li>UpVote: If there are more up votes then we can recommend such links to other others</li>
+                    <li>DownVote: If the down votes are more we can enhance recommendation by taking into consideration</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    userName = [];
+    userActivties= [];
+
+    totalUserActivity = {};
+    totalUniqueActivites = {};
+    users = [];
+
+    <% for (var i = data.length - 1; i > 0 ; i--) { %>
+    userId = "<%= data[i].userId %>";
+    activity = "<%= data[i].activity %>"
+    <!-- -->
+
+    if (userName.indexOf(userId) >= 0) {
+        user_activity = users[userId];
+        index_of_activity = user_activity.indexOf(activity);
+        if (index_of_activity >= 0) {
+            users[userId][index_of_activity + 1] += 1;
+        }
+        else {
+            users[userId].push(activity, 1);
+        }
+    }
+    else {
+        totalUserActivity[userId] = 0;
+        userName.push(userId);
+        var x = [activity, 1];
+        users[userId] = x;
+    }
+    totalUserActivity[userId] += 1;
+
+    if (userActivties.indexOf(activity) >= 0) {
+
+    }
+    else {
+        totalUniqueActivites[activity] = 0;
+        userActivties .push(activity);
+
+    }
+    totalUniqueActivites[activity] += 1;
+
+    <% } %>
+
+    <!-- -->
+    var abc = [];
+    for (var key in totalUserActivity) {
+        a = {"name": key, "value": totalUserActivity[key]};
+        abc.push(a);
+    }
+
+    console.log(abc);
+    var freqData = [];
+    Upvote = [];
+    Downvote = [];
+    Bookmark = [];
+    Question_Link = [];
+    Copy = [];
+    PageBrowse = [];
+    for (var key in users) {
+        user_activity = users[key];
+        Upvote_index = users[key].indexOf("UpVote!");
+        Downvote_index = users[key].indexOf("DownVote!");
+        Bookmark_index = users[key].indexOf("BookMark!");
+        Question_Link_index = users[key].indexOf("ClickOnQuestion!");
+        Copy_index = users[key].indexOf("Copy!");
+        PageBrowse_index = users[key].indexOf("PageBrowse!");
+        Total_value = 0;
+        if (Upvote_index >= 0) {
+            Upvote_value = users[key][Upvote_index + 1];
+            Total_value += Upvote_value;
+            Upvote.push(Upvote_value);
+        }
+        else {
+            Upvote_value = 0;
+            Upvote.push(Upvote_value);
+        }
+        if (Downvote_index >= 0) {
+
+            Downvote_value = users[key][Downvote_index + 1];
+            Total_value += Downvote_value;
+            Downvote.push(Downvote_value);
+        }
+        else {
+            Downvote_value = 0;
+            Downvote.push(Downvote_value);
+        }
+        if (Bookmark_index >= 0) {
+            Bookmark_value = users[key][Bookmark_index + 1];
+            Total_value += Bookmark_value;
+            Bookmark.push(Bookmark_value);
+        }
+        else {
+            Bookmark_value = 0;
+            Bookmark.push(Bookmark_value);
+        }
+        if (Question_Link_index >= 0) {
+            Question_Link_value = users[key][Question_Link_index + 1];
+            Total_value += Question_Link_value;
+            Question_Link.push(Question_Link_value);
+        }
+        else {
+            Question_Link_value = 0;
+            Question_Link.push(Question_Link_value);
+        }
+        if (Copy_index >= 0) {
+            Copy_value = users[key][Copy_index + 1];
+            Total_value += Copy_value;
+            Copy.push(Copy_value);
+        }
+        else {
+            Copy_value = 0;
+            Copy.push(Copy_value);
+        }
+        if (PageBrowse_index >= 0) {
+            PageBrowse_value = users[key][PageBrowse_index + 1];
+            Total_value += PageBrowse_value;
+            PageBrowse.push(PageBrowse_value);
+        }
+        else {
+            PageBrowse_value = 1;
+            PageBrowse.push(PageBrowse_value);
+        }
+        user_log =
+            {
+                userId: key, data:
+                    {
+                        PageBrowse: PageBrowse_value,
+                        Copy: Copy_value,
+                        Question_Link: Question_Link_value,
+                        Bookmark: Bookmark_value,
+                        Downvote: Downvote_value,
+                        Upvote: Upvote_value,
+                    }, total: Total_value
+            };
+        lenght_Data = freqData.length;
+        freqData[lenght_Data] = user_log;
+    }
+
+
+    function roundTo(n, digits) {
+        if (digits === undefined) {
+            digits = 0;
+        }
+
+        var multiplicator = Math.pow(10, digits);
+        n = parseFloat((n * multiplicator).toFixed(11));
+        var test = (Math.round(n) / multiplicator);
+        return +(test.toFixed(digits));
+    }
+
+    // stackedbarchart(freqData);
+    // var freqdata = []
+    // var categories = ['PageBrowse', 'Question_Link', 'Tag_Click'];
+
+    var seriesChart = [];
+
+    for(var j = 0; j<freqData.length-1;j++){
+        var chartData = [];
+        for(var key in freqData[j].data)
+            chartData.push(freqData[j].data[key])
+        var seriesElement = {
+            name: freqData[j].userId,
+            data : chartData
+        };
+        seriesChart.push(seriesElement);
+    }
+
+    Highcharts.chart('container', {
+        chart: {
+            type: 'bar'
+        },
+        title: {
+            text: 'User Activity Tracker'
+        },
+        xAxis: {
+            categories: ['Browsing','Copy','QuestionClicks','BookMarks','Downvotes', 'Upvotes']
+        },
+        yAxis: {
+            min: 0,
+            title: {
+                text: 'Units'
+            }
+        },
+        legend: {
+            reversed: true
+        },
+        plotOptions: {
+            series: {
+                stacking: 'normal'
+            }
+        },
+        series: seriesChart
+    });
+</script>
+</body>
