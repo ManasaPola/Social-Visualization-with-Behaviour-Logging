@@ -1,5 +1,5 @@
 Social Visualization with Behaviour Logging
-Website which display behaviour logging by tracking user interactions on StackOverFlow website and captures data. This website displayes interactive social visulaization
+Website which display behaviour logging by tracking user interactions on StackOverFlow website and captures data. This website displayes interactive social visualiization
 and explains the explored patterns.
 
 Getting Started
